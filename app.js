@@ -25,10 +25,9 @@ const startServer = (port) => {
 
   server.on("error", (err) => {
     if (err.code === "EADDRINUSE") {
-      console.log(
-        `Port ${port} is already in use. Trying port ${parseInt(port) + 1}...`
-      );
-      startServer(port + 1);
+      const newPort = parseInt(port) + 1;
+      console.log(`Port ${port} is already in use. Trying port ${newPort}...`);
+      startServer(newPort);
     } else {
       console.error(err);
     }
