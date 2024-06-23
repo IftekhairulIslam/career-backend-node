@@ -1,8 +1,8 @@
 import express from "express";
-const careerRouter = express.Router();
+const route = express.Router();
 
-careerRouter.get("/", (req, res) => {
+route.get("/", (req, res) => {
   res.send("All careers!");
 });
 
-export default careerRouter;
+export default route;
