@@ -1,14 +1,37 @@
+import jobRoutes from "./routes/jobRoutes.js";
 import express from "express";
 import dotenv from "dotenv";
+import route from "./routes/appRoutes.js";
+import { logger } from "./middlewares/logger.js";
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
 
-app.get("/", (req, res) => {
-  res.send("Career Project!");
-});
+// Middleware
+app.use(logger);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
+// Routes
+app.use("/api/jobs", jobRoutes);
+app.use("/api/", route);
+
+// App Starting Point
+const initialPort = process.env.PORT || 3000;
+const startServer = (port) => {
+  const server = app.listen(port, () => {
+    console.log(`Server is listening on ${port}`);
+  });
+
+  server.on("error", (err) => {
+    if (err.code === "EADDRINUSE") {
+      const newPort = parseInt(port) + 1;
+      console.log(`Port ${port} is already in use. Trying port ${newPort}...`);
+      startServer(newPort);
+    } else {
+      console.error(err);
+    }
+  });
+};
+
+startServer(initialPort);
