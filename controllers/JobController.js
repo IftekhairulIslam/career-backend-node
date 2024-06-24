@@ -1,11 +1,10 @@
+import JobPost from "../models/JobPost.js";
 class JobController {
   static async getAllJobPosts(req, res, next) {
-    const data = await fetch("https://jsonplaceholder.typicode.com/todos").then(
-      (response) => response.json()
-    );
+    const blogs = await JobPost.getAllJobPosts();
 
     res.status(200).send({
-      data: data,
+      data: blogs,
     });
   }
 }
