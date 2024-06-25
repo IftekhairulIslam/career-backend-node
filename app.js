@@ -1,7 +1,7 @@
 import jobRoutes from "./routes/jobRoutes.js";
 import express from "express";
 import dotenv from "dotenv";
-import route from "./routes/appRoutes.js";
+import appRoutes from "./routes/appRoutes.js";
 import { logger } from "./middlewares/logger.js";
 dotenv.config();
 
@@ -12,9 +12,8 @@ app.use(logger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
-app.use("/api/jobs", jobRoutes);
-app.use("/api/", route);
+// API Endpoints
+app.use("/api/", [jobRoutes, appRoutes]);
 
 // App Starting Point
 const initialPort = process.env.PORT || 3000;

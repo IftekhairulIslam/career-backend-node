@@ -1,10 +1,20 @@
 import JobPost from "../models/JobPost.js";
 class JobController {
-  static async getAllJobPosts(req, res, next) {
-    const blogs = await JobPost.getAllJobPosts();
+  // Get All Job Posts
+  static async getAll(req, res, next) {
+    const jobPosts = await JobPost.findAll();
 
     res.status(200).send({
-      data: blogs,
+      data: jobPosts,
+    });
+  }
+
+  // Get Single Job Posts
+  static async getSingle(req, res, next) {
+    const jobPost = await JobPost.findById(req.params.id);
+
+    res.status(200).send({
+      data: jobPost,
     });
   }
 }
